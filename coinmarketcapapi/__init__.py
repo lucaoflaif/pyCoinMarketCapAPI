@@ -44,9 +44,6 @@ class CoinMarketCapAPI:
         return self._cached_api_response
 
     def _cached_data_is_old(self):
-        """: params int minutes_lt, return True if the difference between the time of cached data
-             and now is Greater Than {integer param} in Minutes
-        """
 
         #If we haven't yet the time of last API call return True
         #in order to allow the code to do the request
