@@ -3,6 +3,7 @@ import requests
 import datetime
 import pytz
 
+from . import types
 class CoinMarketCapAPI:
     '''API Class
     '''
@@ -18,6 +19,22 @@ class CoinMarketCapAPI:
 
         #number of API returned cached data
         self._n_cache_hits = 0
+
+    def __getattr__(self, attr):
+        if attr == 'coins':
+            for coin in self._cached_api_response:
+                yield types.Coin(*coin.keys())
+        else:
+            lambda_query = lambda coin: coin['id'] == attr
+
+            filtered_coin = filter(lambda_query, self._cached_api_response)
+            selected_coin = list(filtered_coin)
+            if not selected_coin: #Empty list, no coin found
+                raise AttributeError('attribute %s not found' % attr)
+    
+            selected_coin_keys = selected_coin[0].keys()
+            
+            return types.Coin(*selected_coin_keys)
 
     API_URL_ROOT = 'https://api.coinmarketcap.com'
     API_URL_VERSION = 'v1'
