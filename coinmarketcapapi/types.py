@@ -37,10 +37,3 @@ class Coin:
 
     def _format_last_updated_date(self, timestamp):
         return dt.datetime.fromtimestamp(timestamp)
-
-class Coins:
-    def __init__(self):
-        pass
-
-    def __iter__(self):
-        yield 1
