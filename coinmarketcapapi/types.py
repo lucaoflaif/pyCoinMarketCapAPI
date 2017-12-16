@@ -15,7 +15,7 @@ class Coin:
 
         self.price_usd = float(price_usd)
         self.price_btc = float(price_usd)
-        self.24h_volume_usd = float(24h_volume_usd)
+        self.volume_usd_24h = float(volume_usd_24h)
         self.market_cap_usd = float(market_cap_usd)
         self.available_supply = float(available_supply)
         self.total_supply = float(total_supply)
@@ -28,8 +28,8 @@ class Coin:
 
         if price_converted:
             self.price_converted = float(price_converted)
-        if 24h_volume_converted:
-            self.price_converted = float(24h_volume_converted)
+        if volume_24h_converted:
+            self.price_converted = float(volume_24h_converted)
         if market_cap_converted:
             self.price_converted = float(market_cap_converted)
 
