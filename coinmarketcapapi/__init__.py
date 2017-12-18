@@ -1,13 +1,13 @@
 import json
-import requests
 import datetime
+import requests
 import pytz
 
-from . import types
-class CoinMarketCapAPI:
+from . import types, utils
+class CoinMarketCapAPI(object):
     '''API Class
     '''
-    def __init__(self, max_request_per_minute = 9):
+    def __init__(self, max_request_per_minute=9):
         """: param int max_request_per_minute, if we want a maximum of {parameter}
              requests per minute, we don't have to make more than 1 request every
              ({parameter} / 60) seconds, IT'S FREAKIN' EASY M8
@@ -20,39 +20,43 @@ class CoinMarketCapAPI:
         #number of API returned cached data
         self._n_cache_hits = 0
 
+    def _return_all_coins(self):
+        for coin in self._cached_api_response:
+            yield types.Coin(*coin.values())
+
+    def _return_specific_coin(self, attr):
+        filtered_coins_dicts = utils.dicts_filter(self._cached_api_response, 'id', attr)
+        selected_coin_values = filtered_coins_dicts[0].values()
+
+        return types.Coin(*selected_coin_values)
+
     def __getattr__(self, attr):
         if attr == 'coins':
-            for coin in self._cached_api_response:
-                yield types.Coin(*coin.keys())
+            return self._return_all_coins()
         else:
-            lambda_query = lambda coin: coin['id'] == attr
+            return self._return_specific_coin(attr)    
 
-            filtered_coin = filter(lambda_query, self._cached_api_response)
-            selected_coin = list(filtered_coin)
-            if not selected_coin: #Empty list, no coin found
-                raise AttributeError('attribute %s not found' % attr)
-    
-            selected_coin_keys = selected_coin[0].keys()
-            
-            return types.Coin(*selected_coin_keys)
-
-    API_URL_ROOT = 'https://api.coinmarketcap.com'
+    API_URL_ROOT = 'https://api.coinmarketcap.com/'
     API_URL_VERSION = 'v1'
 
 
-    def _make_url(self, info_type):
-        url = "{}/{}/{}".format(
+    def _make_url(self, info_type, coin_name):
+        url = "{}/{}/{}/{}".format(
             self.API_URL_ROOT,
             self.API_URL_VERSION,
-            info_type
+            info_type,
+            coin_name or ""
+             
         )
         return url
 
-    def send_request(self, info_type='ticker', **kwargs):
+    def send_request(self, info_type='ticker', coin_name=None, **kwargs):
         """: param string 'ticker', it's 'ticker' if we want info about coins, 
             'global' for global market's info.
+           : param string 'coin_name', specify the name of the coin, if None,
+             we'll retrieve info about all available coins.
         """
-        built_url = self._make_url(info_type)
+        built_url = self._make_url(info_type, coin_name)
         payload = dict(**kwargs)
 
         self._process_request(built_url, payload)
@@ -82,7 +86,7 @@ class CoinMarketCapAPI:
     def _process_request(self, built_url, payload):
 
         #if we have no cache's time then call APIs, else use cached data
-        if self._time_cached_api_response is None or self._cached_data_is_old():
+        if self._time_cached_api_response == None or self._cached_data_is_old():
             response = requests.get(built_url, params=payload)
         else:
             self._n_cache_hits += 1
@@ -90,6 +94,7 @@ class CoinMarketCapAPI:
         self._process_response(response)
 
     def _process_response(self, response):
+        print(response)
         if isinstance(response, list):
             #response already converted from json
             self._cached_api_response = response
