@@ -13,7 +13,7 @@ class CacheTestCase(unittest.TestCase):
         my_class = coinmarketcapapi.CoinMarketCapAPI()
         times_of_request = 5
 
-        for x in range (times_of_request):
+        for _ in range (times_of_request):
             my_class.send_request(convert="EUR")
     
 
@@ -41,7 +41,7 @@ class CacheTestCase(unittest.TestCase):
         for step in range (n_of_requests):
             my_class.send_request() # Server request
             delay_time = random.uniform(1,3)
-            print(delay_time)
+
             time.sleep(delay_time)
 
             if (delay_time < delay_seconds) and step < 4: # less than last step, range(5) is 0,1,2,3,4
