@@ -1,6 +1,8 @@
 import datetime as dt
 
 class Coin:
+    """Coin class
+    """
     def __init__(self, coin_id, name, symbol, rank, price_usd, price_btc, volume_usd_24h,
                  market_cap_usd, available_supply, total_supply, max_supply,
                  percent_change_1h, percent_change_24h, percent_change_7d,
@@ -21,11 +23,11 @@ class Coin:
         self.available_supply = float(available_supply)
         self.total_supply = float(total_supply)
         if max_supply: #  max supply can be None from APIs
-            self.max_supply = float(max_supply) 
+            self.max_supply = float(max_supply)
         self.percent_change_1h = float(percent_change_1h)
         self.percent_change_24h = float(percent_change_24h)
         self.percent_change_7d = float(percent_change_7d)
-        
+
         self.last_updated = self._format_last_updated_date(last_updated)
 
         if price_converted:
