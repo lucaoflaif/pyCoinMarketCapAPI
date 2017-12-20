@@ -104,7 +104,6 @@ class CoinMarketCapAPI(object):
         self._process_response(response)
 
     def _process_response(self, response):
-        print(response)
         if isinstance(response, list):
             #response already converted from json
             self._cached_api_response = response
