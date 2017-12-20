@@ -24,6 +24,16 @@ class CoinMarketCapAPI(object):
         for coin in self._cached_api_response:
             yield types.Coin(*coin.values())
 
+    def coins(self):
+        """return a generator objects with the coin instance of all available coins.
+        """
+        return self._return_all_coins()
+
+    def coin(self, coin_name):
+        """return a coin instance of the {coin_name} coin.
+        """
+        return self._return_specific_coin(coin_name)
+
     def _return_specific_coin(self, attr):
         filtered_coins_dicts = utils.dicts_filter(self._cached_api_response, 'id', attr)
         selected_coin_values = filtered_coins_dicts[0].values()
@@ -33,8 +43,7 @@ class CoinMarketCapAPI(object):
     def __getattr__(self, attr):
         if attr == 'coins':
             return self._return_all_coins()
-        else:
-            return self._return_specific_coin(attr)    
+        return self._return_specific_coin(attr)
 
     API_URL_ROOT = 'https://api.coinmarketcap.com/'
     API_URL_VERSION = 'v1'
@@ -46,12 +55,11 @@ class CoinMarketCapAPI(object):
             self.API_URL_VERSION,
             info_type,
             coin_name or ""
-             
         )
         return url
 
     def send_request(self, info_type='ticker', coin_name=None, **kwargs):
-        """: param string 'ticker', it's 'ticker' if we want info about coins, 
+        """: param string 'ticker', it's 'ticker' if we want info about coins,
             'global' for global market's info.
            : param string 'coin_name', specify the name of the coin, if None,
              we'll retrieve info about all available coins.
@@ -60,8 +68,10 @@ class CoinMarketCapAPI(object):
         payload = dict(**kwargs)
 
         self._process_request(built_url, payload)
-    
+
     def get_response(self):
+        """return json response from APIs converted into python list
+        """
         return self._cached_api_response
 
     def _cached_data_is_old(self):
@@ -73,11 +83,11 @@ class CoinMarketCapAPI(object):
 
         #Let's check the time now
         time_now_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-		
-        #Then, calculate the difference between the last time 
+
+        #Then, calculate the difference between the last time
         # we retrieved new data from server and now
         time_difference = time_now_utc - self._time_cached_api_response
-        
+
         seconds_difference = time_difference.total_seconds()
 
         if self._delay_seconds:
@@ -86,7 +96,7 @@ class CoinMarketCapAPI(object):
     def _process_request(self, built_url, payload):
 
         #if we have no cache's time then call APIs, else use cached data
-        if self._time_cached_api_response == None or self._cached_data_is_old():
+        if self._time_cached_api_response is None or self._cached_data_is_old():
             response = requests.get(built_url, params=payload)
         else:
             self._n_cache_hits += 1
