@@ -7,7 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 import unittest
 
 import coinmarketcapapi
-
+from coinmarketcapapi import types
 class CoinSelectMechanismTest(unittest.TestCase):
     
 
@@ -40,6 +40,14 @@ class CoinSelectMechanismTest(unittest.TestCase):
 
         self.assertEqual(len(coin_class_attributes_values), len(api_response_attributes_values))
 
+    def test_coin_public_method(self):
+        coin_instance = self.my_class.coin(coin_name="ethereum")
+
+        self.assertEqual(isinstance(coin_instance, types.Coin), True)
+    def test_coins_public_method(self):
+        for coin in self.my_class.coins():
+            if not isinstance(coin, types.Coin):
+                assert False, "Failed at %(coin)s" % {'coin': coin}
 
 
 if __name__ == "__main__":
