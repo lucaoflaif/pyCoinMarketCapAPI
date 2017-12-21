@@ -1,61 +1,16 @@
 # pyCoinMarketCapAPI
 
-pyCoinMarketCapAPI is a python interface for https://coinmarketcap.com/ APIs, It supports a cache, and a dynamic timezone mechanism.
+pyCoinMarketCapAPI is a python interface for <https://coinmarketcap.com> APIs, It supports a cache, and a dynamic timezone mechanism.
 
 ## Installation
 
 * Installation from source (requires git):
 
 ``` bash
-git clone https://github.com/lucaoflaif/pyCoinMarketCapAPI.git
+git clone <https://github.com/lucaoflaif/pyCoinMarketCapAPI.git>
 cd pyCoinMarketCapAPI
 python setup.py install
 ```
-
-## Prerequisites
-
-Just be sure you have installed python 3.6.* or higher.
-
-## Running the tests
-
-You can run the tests simply running:
-
-``` bash
-python tests/cache_test.py
-python tests/coins_select_mechanism_test.py
-```
-
-(it requires `unittest` python package)
-
-### Break down into end to end tests
-
-* cache_test.py
-
-This test simply will test if the cache mechanism works correctly.
-
-* coins_select_mechanism_test.py
-
-This test simply will test if the public methods (and other elements that'll be explained later) will return the expected and correct result(s). See the [tests files](tests/) for further info!
-
-The output of the tests should be something like:
-
-``` bash
-$ python tests/cache_test.py
-...
-----------------------------------------------------------------------
-Ran 3 tests in 27.253s
-
-OK
-
-$ python tests/coins_select_mechanism_test.py
-....
-----------------------------------------------------------------------
-Ran 4 tests in 0.001s
-
-OK
-```
-
-Here, we'll talk about the main `CoinMarketCapAPI` class.
 
 ## Getting started
 
@@ -106,6 +61,10 @@ Our coin variable is an istance of the `Coin` class. Now, if we want to know (fo
 ```
 
 *See [Types](#types) (highly recommended)*
+
+## Prerequisites
+
+Just be sure you have installed python 3.6.* or higher.
 
 ## Documentation
 
@@ -182,6 +141,45 @@ The table above explain how endopint are organised
 | `limit` | Yes | `limit=10` | `ticker` |From doc: ```(int) limit - return a maximum of [limit] results (default is 100, use 0 to return all results)```
 
 The table above explain how parameters are organised
+
+## Running the tests
+
+You can run the tests simply running:
+
+``` bash
+python tests/cache_test.py
+python tests/coins_select_mechanism_test.py
+```
+
+(it requires `unittest` python package)
+
+### Break down into end to end tests
+
+* cache_test.py
+
+This test simply will test if the cache mechanism works correctly.
+
+* coins_select_mechanism_test.py
+
+This test simply will test if the public methods (and other elements that'll be explained later) will return the expected and correct result(s). See the [tests files](tests/) for further info!
+
+The output of the tests should be something like:
+
+``` bash
+$ python tests/cache_test.py
+...
+----------------------------------------------------------------------
+Ran 3 tests in 27.253s
+
+OK
+
+$ python tests/coins_select_mechanism_test.py
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+```
 
 ## Authors
 
