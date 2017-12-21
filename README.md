@@ -1,6 +1,6 @@
 # pyCoinMarketCapAPI
 
-    pyCoinMarketCapAPI is a python interface for https://coinmarketcap.com/ APIs, It supports a cache, and a dynamic timezone mechanism.
+pyCoinMarketCapAPI is a python interface for https://coinmarketcap.com/ APIs, It supports a cache, and a dynamic timezone mechanism.
 
 ## Installation
 
@@ -180,6 +180,7 @@ The table above explain how endopint are organised
 | `convert`   | Yes     | `convert="EUR"`  | `ticker`, `global` | From doc: ```(string) convert - return price, 24h volume, and market cap in terms of another currency. Valid values are:  "AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PKR", "PLN", "RUB", "SEK", "SGD", "THB", "TRY", "TWD", "ZAR"```
 | `start` | Yes | `start=5` | `ticker` |From doc: ```(int) start - return results from rank [start] and above```
 | `limit` | Yes | `limit=10` | `ticker` |From doc: ```(int) limit - return a maximum of [limit] results (default is 100, use 0 to return all results)```
+
 The table above explain how parameters are organised
 
 ## Authors
