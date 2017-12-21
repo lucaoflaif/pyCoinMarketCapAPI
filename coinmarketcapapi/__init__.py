@@ -49,22 +49,22 @@ class CoinMarketCapAPI(object):
     API_URL_VERSION = 'v1'
 
 
-    def _make_url(self, info_type, coin_name):
+    def _make_url(self, endpoint, coin_name):
         url = "{}/{}/{}/{}".format(
             self.API_URL_ROOT,
             self.API_URL_VERSION,
-            info_type,
+            endpoint,
             coin_name or ""
         )
         return url
 
-    def send_request(self, info_type='ticker', coin_name=None, **kwargs):
+    def send_request(self, endpoint='ticker', coin_name=None, **kwargs):
         """: param string 'ticker', it's 'ticker' if we want info about coins,
             'global' for global market's info.
            : param string 'coin_name', specify the name of the coin, if None,
              we'll retrieve info about all available coins.
         """
-        built_url = self._make_url(info_type, coin_name)
+        built_url = self._make_url(endpoint, coin_name)
         payload = dict(**kwargs)
 
         self._process_request(built_url, payload)
