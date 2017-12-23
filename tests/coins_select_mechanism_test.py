@@ -9,8 +9,6 @@ import unittest
 import coinmarketcapapi
 from coinmarketcapapi import types
 class CoinSelectMechanismTest(unittest.TestCase):
-    
-
     my_class = coinmarketcapapi.CoinMarketCapAPI()
 
     my_class.send_request()
