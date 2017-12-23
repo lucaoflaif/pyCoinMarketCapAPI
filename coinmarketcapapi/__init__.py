@@ -20,6 +20,11 @@ class CoinMarketCapAPI(object):
         #number of API returned cached data
         self._n_cache_hits = 0
 
+    def __getattr__(self, attr):
+        if attr == 'coins':
+            return self._return_all_coins()
+        return self._return_specific_coin(attr)
+
     def _return_all_coins(self):
         for coin in self._cached_api_response:
             yield types.Coin(*coin.values())
@@ -40,19 +45,14 @@ class CoinMarketCapAPI(object):
 
         return types.Coin(*selected_coin_values)
 
-    def __getattr__(self, attr):
-        if attr == 'coins':
-            return self._return_all_coins()
-        return self._return_specific_coin(attr)
-
-    API_URL_ROOT = 'https://api.coinmarketcap.com/'
-    API_URL_VERSION = 'v1'
+    _API_URL_ROOT = 'https://api.coinmarketcap.com/'
+    _API_URL_VERSION = 'v1'
 
 
     def _make_url(self, endpoint, coin_name):
         url = "{}/{}/{}/{}".format(
-            self.API_URL_ROOT,
-            self.API_URL_VERSION,
+            self._API_URL_ROOT,
+            self._API_URL_VERSION,
             endpoint,
             coin_name or ""
         )
