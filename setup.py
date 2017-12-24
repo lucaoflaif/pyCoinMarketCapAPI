@@ -18,13 +18,8 @@ setup(name='pyCoinMarketCapAPI',
       license='MIT',
       packages=['coinmarketcapapi'],
       install_requires=[
-          'os', 'sys',
-          'json',
-          'datetime',
           'requests',
           'pytz',
-          'unittest',
-          'time'
       ],
       include_package_data=True,
       zip_safe=False,
