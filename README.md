@@ -12,6 +12,12 @@ cd pyCoinMarketCapAPI
 python setup.py install
 ```
 
+* Installation from `pip`:
+
+``` bash
+pip install pyCoinMarketCapAPI
+```
+
 ## Getting started
 
 First, import our class with:
@@ -129,7 +135,7 @@ The `send_request()` method is used to retrieve new data from the official coinm
 
 | Endpoint |Function | Example
 | :----: | :----: | :----:
-| `ticker` | Retrieve spcific currency | `endpoint="ticker"`
+| `ticker` | Retrieve specific currency | `endpoint="ticker"`
 | `global` | Retrieve global data | `endpoint="global"`
 
 The table above explain how endopint are organised
