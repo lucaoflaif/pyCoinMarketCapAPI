@@ -1,6 +1,5 @@
 ### Python ###
-*.egg-info
-*.egg
+*.egg*
 
 # Byte-compiled / optimized / DLL files
 
