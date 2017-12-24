@@ -150,14 +150,22 @@ The table above explain how parameters are organised
 
 ## Running the tests
 
-You can run the tests simply running:
+* You can automatically run the tests *(Recommended choice)* running:
+
+``` bash
+python setup.py test
+```
+
+(It'll provide to install dependencies and run all the tests)
+
+* You can manually run the tests simply running:
 
 ``` bash
 python tests/cache_test.py
 python tests/coins_select_mechanism_test.py
 ```
 
-(it requires `unittest` python package)
+(it requires the `unittest` python package included in the [Python Standard Library](https://docs.python.org/3/library/index.html))
 
 ### Break down into end to end tests
 
