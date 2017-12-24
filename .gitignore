@@ -1,4 +1,6 @@
 ### Python ###
+*.egg-info
+*.egg
 
 # Byte-compiled / optimized / DLL files
 
@@ -13,3 +15,9 @@ ENV/
 
 # VSCode folder
 .vscode/
+
+#build
+build/
+
+#dist
+dist/
