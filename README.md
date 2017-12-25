@@ -40,7 +40,7 @@ Okay, let's call the server:
 coin_apis.send_request()
 ```
 
-Thanks to this method we filled our class with new data and the Cache mechanism is activated (See [Cache mechanism](#cache-mechanism)), call this method is **necessary** for the first time in order to have data to work with.
+Thanks to this method we filled our class with new data and the Cache mechanism will be activated (See [Cache mechanism](#cache-mechanism)), call this method is **necessary** for the first time in order to have data to work with.
 
 *You can pass to the `send_request()` method all the parameters allowed by the official APIs (See [Public methods](#public-methods))*
 
@@ -80,7 +80,7 @@ The parameter we can pass through `CoinMarketCapAPI` class is `max_request_per_m
 
 | Parameter | Type | Optional | Function
 | :---         |     :---:      |          :---: | ---:
-| `max_request_per_minute`   | Int     | No, but initialized to 9    | Define the max number of requests to the APIs server per minute (See [Cache mechanism](www.google.it))
+| `max_request_per_minute`   | Int     | No, but initialized to 9    | Define the max number of requests to the APIs server per minute (See [Cache mechanism](#cache-mechanism))
 
 ### Public methods
 
@@ -147,6 +147,41 @@ The table above explain how endopint are organised
 | `limit` | Yes | `limit=10` | `ticker` |From doc: ```(int) limit - return a maximum of [limit] results (default is 100, use 0 to return all results)```
 
 The table above explain how parameters are organised
+
+### Types
+
+* class `Coin`
+
+An istance of the `Coin` class is returned for every coin's info requested (as explained in [Public methods](#public-methods) section), you can access the information of the coin through the class' attributes as explained in the table below:
+
+| Attribute name |Type | Info type
+| :----: | :----: | :----:
+| `coin_id` | String | Coin id |
+| `name` | String | Coin name |
+| `symbol` | String | Coin symbol |
+| `rank` | Int | Coin rank |
+| `price_usd` | Float | Coin price (in USD) |
+| `price_btc` | Float | Coin price (in BTB) |
+| `volume_usd_24h` | Float | Volume in the last 24h (in USD) |
+| `market_cap_usd` | Float | Market Cap (in USD) |
+| `available_supply` | Float | Available supply |
+| `total_supply` | Float if present else None | Total supply |
+| `max_supply` | Float | Max supply |
+| `percent_change_1h` | Float | Value change in the last hour (percentage) |
+| `percent_change_24h` | Float | Value change in the 24h (percentage) |
+| `percent_change_7d` | Float | Value change in the last week (percentage) |
+| `last_updated` | datetime object | Last data update of API server |
+| `price_converted` | Float if present else None | Price converted (in the currency specified, see [Public methods](#public-methods)) |
+| `volume_24h_converted` | Float if present else None | Volume in the last 24h converted (in the currency specified, see [Public methods](#public-methods)) |
+| `market_cap_converted` | Float if present else None | Market CAP converted in the currency specified, see [Public methods](#public-methods)) |
+
+`total_supply` could be `None` because API could send `null` as its value.
+
+`price_converted`, `volume_24h_converted`, `market_cap_converted` could be `None` if no `convert` parameter has been passed to `send_request()` [public method](#public-methods).
+
+### Cache mechanism
+
+One of the features of this library is the Cache Mechanism. Simply, as explained in [Class constructor parameters](#class-constructor-parameters), you can specify how many requests per minute you want to send to the server, you can call the `send_request()` [plublic method](#public-methods) as many times as you want: the mechanism will automatically choose if return the cached response, or call the server for new and fresh data, don't worry, the data will be cleverly managed and refreshed with regular time cadence (respecting, of course, the preset limit)
 
 ## Running the tests
 
