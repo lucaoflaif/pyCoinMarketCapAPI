@@ -108,11 +108,8 @@ class CoinMarketCapAPI(object):
     def _response_is_valid(self, response):
         if isinstance(response, list): # jsonized response, already cached, no errors
             return True
-        elif response.status_code == 200: # returned different status code from 200
-            raise errors.APICallFailed(response.status_code)
-        elif 'error' in response.text:
-            response = response.json()
-            raise errors.APIServerError(response)
+        elif response.status_code != 200: # returned different status code from 200
+            raise errors.APICallFailed(response)
         return True
 
     def _process_response(self, response):
