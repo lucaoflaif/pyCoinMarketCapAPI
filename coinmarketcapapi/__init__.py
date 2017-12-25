@@ -3,7 +3,7 @@ import datetime
 import requests
 import pytz
 
-from . import types, utils
+from . import types, utils, errors
 class CoinMarketCapAPI(object):
     '''API Class
     '''
@@ -101,7 +101,19 @@ class CoinMarketCapAPI(object):
         else:
             self._n_cache_hits += 1
             response = self._cached_api_response
-        self._process_response(response)
+
+        if self._response_is_valid(response):
+            self._process_response(response)
+
+    def _response_is_valid(self, response):
+        if isinstance(response, list): # jsonized response, already cached, no errors
+            return True
+        elif response.status_code == 200: # returned different status code from 200
+            raise errors.APICallFailed(response.status_code)
+        elif 'error' in response.text:
+            response = response.json()
+            raise errors.APIServerError(response)
+        return True
 
     def _process_response(self, response):
         if isinstance(response, list):
