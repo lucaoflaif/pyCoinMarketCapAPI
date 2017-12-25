@@ -171,9 +171,9 @@ An istance of the `Coin` class is returned for every coin's info requested (as e
 | `percent_change_24h` | Float | Value change in the 24h (percentage) |
 | `percent_change_7d` | Float | Value change in the last week (percentage) |
 | `last_updated` | datetime object | Last data update of API server |
-| `price_converted` | Float if present else None | Price converted (in the currency specified, see [Public methods](#public-methods)) |
-| `volume_24h_converted` | Float if present else None | Volume in the last 24h converted (in the currency specified, see [Public methods](#public-methods)) |
-| `market_cap_converted` | Float if present else None | Market CAP converted in the currency specified, see [Public methods](#public-methods)) |
+| `price_converted` | Float if present else None | Price converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
+| `volume_24h_converted` | Float if present else None | Volume in the last 24h converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
+| `market_cap_converted` | Float if present else None | Market CAP converted in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
 
 `total_supply` could be `None` because API could send `null` as its value.
 
