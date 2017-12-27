@@ -46,3 +46,29 @@ class Coin:
     def _format_last_updated_date(self, timestamp):
         timestamp = int(timestamp)
         return dt.datetime.fromtimestamp(timestamp)
+
+class Global:
+    """Global class
+    """
+    def __init__(self, total_market_cap_usd, total_24h_volume_usd,
+                 bitcoin_percentage_of_market_cap, active_currencies,
+                 active_assets, active_markets, last_updated,
+                 total_market_cap_eur=None, total_24h_volume_eur=None):
+
+        self.total_market_cap_usd = total_market_cap_usd
+        self.total_24h_volume_usd = total_24h_volume_usd
+        self.bitcoin_percentage_market_cap = bitcoin_percentage_of_market_cap
+        self.active_currencies = active_currencies
+        self.active_assets = active_assets
+        self.active_markets = active_markets
+
+        self.last_updated = self._format_last_updated_date(last_updated)
+
+        if total_market_cap_eur:
+            self.total_market_cap_eur = total_market_cap_eur
+        if total_24h_volume_eur:
+            self.total_24h_volume_eur = total_24h_volume_eur
+
+    def _format_last_updated_date(self, timestamp):
+        timestamp = int(timestamp)
+        return dt.datetime.fromtimestamp(timestamp)
