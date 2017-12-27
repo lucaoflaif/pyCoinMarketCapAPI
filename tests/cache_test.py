@@ -38,18 +38,21 @@ class CacheTestCase(unittest.TestCase):
 
         delay_seconds = 60/max_requests
         n_of_requests = 5
-        expected_cache_call = 0
+        expected_cache_calls = 0
+        total_cache_calls = 0
 
         for step in range(n_of_requests):
             my_class.send_request() # Server request
+            if my_class._n_cache_hits != 0:
+                total_cache_calls += 1
             delay_time = random.uniform(1, 3)
 
             time.sleep(delay_time)
 
             if (delay_time < delay_seconds) and step < 4: # less than last step, range is 0,1,2,3,4
-                expected_cache_call += 1
+                expected_cache_calls += 1
 
-        self.assertEqual(my_class._n_cache_hits, expected_cache_call)
+        self.assertEqual(total_cache_calls, expected_cache_calls)
 
 
 if __name__ == "__main__":
