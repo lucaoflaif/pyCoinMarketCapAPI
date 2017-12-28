@@ -120,13 +120,35 @@ Optionally, you can use:
 
 * `get_response()`
 
-This method return the response converted from json to a python list:
+If only a "ticker" type request is cached, this method returns the response converted from json to a python list:
 
 ``` python
 >>> print (coin_apis.get_response())
 [{'id': 'bitcoin', 'name': 'Bitcoin', 'symbol': 'BTC', 'rank': '1', 'price_usd': '16861.1', 'price_btc': '1.0', '24h_volume_usd': '18988100000.0', 'market_cap_usd': '282504560613', 'available_supply': '16754812.0', 'total_supply': '16754812.0', 'max_supply': '21000000.0', 'percent_change_1h': '-1.0', 'percent_change_24h': '-2.47', 'percent_change_7d': '1.59', 'last_updated': '1513851256'}, {'id': 'ethereum', 'name': 'Ethereum', 'symbol': 'ETH', 'rank': '2', 'price_usd': '866.568', 'price_btc': '0.0515602', '24h_volume_usd': '3621040000.0', 'market_cap_usd': '83602326421.0', 'available_supply': '96475206.0', 'total_supply': '96475206.0', 'max_supply': None, 'percent_change_1h': '0.07', 'percent_change_24h': '6.05', 'percent_change_7d': '19.97', 'last_updated': '1513851256'}, ... ]
 >>> print (type(coin_apis.get_response()))
 <class 'list'>
+```
+
+If only a "global" type request is cached, this method returns the response converted from json to a python dict:
+
+```python
+>>> print (coin_apis.get_response()
+{'active_assets': 464,
+ 'active_currencies': 910,
+ 'active_markets': 7397,
+ 'bitcoin_percentage_of_market_cap': 43.34,
+ 'last_updated': 1514481559,
+ 'total_24h_volume_usd': 31313412913.0,
+ 'total_market_cap_usd': 559006768817.0}
+>>> print (type(coin_apis.get_response()))
+<class 'dict'>
+```
+
+If we have both, we have to pass a `data_type` parameter through the function:
+
+```python
+coin_apis.get_response(data_type='ticker') # for ticker cached data
+coin_apis.get_response(data_type='global') # for global cached data
 ```
 
 * `send_request()`
@@ -148,6 +170,18 @@ The table above explain how endopint are organised
 
 The table above explain how parameters are organised
 
+The built function should be something like:
+
+```python
+send_request() # endpoint is default 'ticker', no additional params
+send_request(limit=5) # ticker endpoint with limit parameter
+
+# or
+
+send_request(endpoint="global") # global endpoint with no additional params
+send_request(endpoint='global', convert="EUR") # global endpoint with convert parameter
+```
+
 ### Types
 
 * class `Coin`
@@ -167,9 +201,9 @@ An istance of the `Coin` class is returned for every coin's info requested (as e
 | `available_supply` | Float | Available supply |
 | `total_supply` | Float if present else None | Total supply |
 | `max_supply` | Float | Max supply |
-| `percent_change_1h` | Float | Value change in the last hour (percentage) |
-| `percent_change_24h` | Float | Value change in the 24h (percentage) |
-| `percent_change_7d` | Float | Value change in the last week (percentage) |
+| `percent_change_1h` | Float if present else None | Value change in the last hour (percentage) |
+| `percent_change_24h` | Float if present else None | Value change in the 24h (percentage) |
+| `percent_change_7d` | Float if present else None | Value change in the last week (percentage) |
 | `last_updated` | datetime object | Last data update of API server |
 | `price_converted` | Float if present else None | Price converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
 | `volume_24h_converted` | Float if present else None | Volume in the last 24h converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
