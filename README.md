@@ -277,7 +277,7 @@ OK
 
 ## Authors
 
-* **Luca Di Vita** - [GitHub](https://github.com/lucaoflaif/), [Telegram](https://t.me/Lux27)
+* **Luca Di Vita** - [GitHub](https://github.com/lucaoflaif/), [Telegram](https://t.me/lucaoflaif)
 
 ## License
 
