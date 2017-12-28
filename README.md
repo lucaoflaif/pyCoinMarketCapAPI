@@ -209,7 +209,7 @@ An istance of the `Coin` class is returned for every coin's info requested (as e
 | `volume_24h_converted` | Float if present else None | Volume in the last 24h converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
 | `market_cap_converted` | Float if present else None | Market CAP converted in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
 
-`total_supply`, `percent_change_7d`, `percent_change_1h`, `percent_change_24h` could be `None` because API could send `null` as its value.
+`total_supply`, `percent_change_7d`, `percent_change_1h`, `percent_change_24h` could be `None` because API could send `null` as their value.
 
 `price_converted`, `volume_24h_converted`, `market_cap_converted` could be `None` if no `convert` parameter has been passed to `send_request()` [public method](#public-methods).
 
