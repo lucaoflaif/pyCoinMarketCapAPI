@@ -21,7 +21,7 @@ class Coin:
         self.volume_usd_24h = float(volume_usd_24h)
         self.market_cap_usd = float(market_cap_usd)
         self.available_supply = float(available_supply)
-        self.total_supply = float(total_supply) 
+        self.total_supply = float(total_supply)
         if max_supply: #  max supply can be None from APIs
             self.max_supply = float(max_supply)
         if percent_change_1h:
