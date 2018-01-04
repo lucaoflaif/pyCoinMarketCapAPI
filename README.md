@@ -1,5 +1,7 @@
 # pyCoinMarketCapAPI
 
+[![Build Status](https://travis-ci.org/lucaoflaif/pyCoinMarketCapAPI.svg?branch=master)](https://travis-ci.org/lucaoflaif/pyCoinMarketCapAPI)
+
 pyCoinMarketCapAPI is a python interface for <https://coinmarketcap.com> APIs, It supports a cache, and a dynamic timezone mechanism.
 
 ## Installation
