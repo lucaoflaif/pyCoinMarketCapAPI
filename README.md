@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/lucaoflaif/pyCoinMarketCapAPI.svg?branch=master)](https://travis-ci.org/lucaoflaif/pyCoinMarketCapAPI)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a935cced37274464855a235173b809fb)](https://www.codacy.com/app/lucaoflaif/pyCoinMarketCapAPI?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lucaoflaif/pyCoinMarketCapAPI&amp;utm_campaign=Badge_Grade)
-[![PyPI](https://img.shields.io/pypi/status/pyCoinMarketCapAPI.svg)]
-[![PyPI](https://img.shields.io/pypi/pyversions/pyCoinMarketCapAPI.svg)]
+![PyPI](https://img.shields.io/pypi/status/pyCoinMarketCapAPI.svg)
+![PyPI](https://img.shields.io/pypi/pyversions/pyCoinMarketCapAPI.svg)
 [![PyPI](https://img.shields.io/pypi/l/pyCoinMarketCapAPI.svg)]()
 
 pyCoinMarketCapAPI is a python interface for <https://coinmarketcap.com> APIs, It supports a cache, and a dynamic timezone mechanism.
