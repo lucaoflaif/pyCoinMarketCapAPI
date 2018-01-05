@@ -1,12 +1,15 @@
+"""Tests for the cache mechanism"""
+import time
+import secrets
+import os
+import sys
+import unittest
 import coinmarketcapapi
 
-import unittest
-import os, sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 
-import time
-import random
+
 
 class CacheTestCase(unittest.TestCase):
     """Test class
@@ -56,7 +59,9 @@ class CacheTestCase(unittest.TestCase):
             my_class.send_request() # Server request
             if my_class._n_cache_hits != 0:
                 total_cache_calls += 1
-            delay_time = random.uniform(1, 3)
+
+            #random numbers generated securely
+            delay_time = secrets.choice([1, 2, 3])
 
             time.sleep(delay_time)
 

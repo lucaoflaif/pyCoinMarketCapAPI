@@ -1,6 +1,5 @@
 import os
 import sys
-import datetime
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 
 import unittest
@@ -44,7 +43,7 @@ class CoinSelectMechanismTest(unittest.TestCase):
     def test_coins_public_method(self):
         for coin in self.my_class.coins():
             if not isinstance(coin, types.Coin):
-                assert False, "Failed at %(coin)s" % {'coin': coin}
+                raise Exception("Failed at %(coin)s" % {'coin': coin})
 
 
 if __name__ == "__main__":

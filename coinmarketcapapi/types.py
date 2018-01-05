@@ -49,7 +49,8 @@ class Coin:
             'symbol': self.symbol
         }
 
-    def _format_last_updated_date(self, timestamp):
+    @staticmethod
+    def _format_last_updated_date(timestamp):
         timestamp = int(timestamp)
         return dt.datetime.fromtimestamp(timestamp)
 
