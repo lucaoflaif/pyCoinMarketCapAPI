@@ -1,3 +1,6 @@
+"""This module has all classes needed that help the package's structure
+"""
+
 import datetime as dt
 
 class Coin:
@@ -72,6 +75,7 @@ class Global:
         if total_24h_volume_eur:
             self.total_24h_volume_eur = total_24h_volume_eur
 
-    def _format_last_updated_date(self, timestamp):
+    @staticmethod
+    def _format_last_updated_date(timestamp):
         timestamp = int(timestamp)
         return dt.datetime.fromtimestamp(timestamp)

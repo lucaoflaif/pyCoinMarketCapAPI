@@ -1,3 +1,6 @@
+"""main file of package
+"""
+
 import json
 import datetime
 import requests
@@ -92,8 +95,7 @@ class CoinMarketCapAPI(object):
             return self._cached_api_ticker_response or self._cached_api_global_response
         elif data_type == 'ticker':
             return self._cached_api_ticker_response
-        else:
-            return self._cached_api_global_response
+        return self._cached_api_global_response
 
     def _cached_data_is_old(self):
 
@@ -130,7 +132,8 @@ class CoinMarketCapAPI(object):
         if self._response_is_valid(response):
             self._process_response(response)
 
-    def _response_is_valid(self, response):
+    @classmethod
+    def _response_is_valid(cls, response):
         if isinstance(response, (list, dict)): # jsonized response, already cached, no errors
             return True
         elif response.status_code != 200: # returned different status code from 200
