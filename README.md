@@ -180,11 +180,11 @@ The built function should be something like:
 
 ```python
 send_request() # endpoint is default 'ticker', no additional params
-send_request(limit=5) # ticker endpoint with limit parameter
-
 # or
-
+send_request(limit=5) # ticker endpoint with limit parameter
+# or
 send_request(endpoint="global") # global endpoint with no additional params
+# or
 send_request(endpoint='global', convert="EUR") # global endpoint with convert parameter
 ```
 
@@ -210,7 +210,7 @@ An istance of the `Coin` class is returned for every coin's info requested (as e
 | `percent_change_1h` | Float if present else None | Value change in the last hour (percentage) |
 | `percent_change_24h` | Float if present else None | Value change in the 24h (percentage) |
 | `percent_change_7d` | Float if present else None | Value change in the last week (percentage) |
-| `last_updated` | datetime object | Last data update of API server |
+| `last_updated` | datetime object if present else None | Last data update of API server |
 | `price_converted` | Float if present else None | Price converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
 | `volume_24h_converted` | Float if present else None | Volume in the last 24h converted (in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
 | `market_cap_converted` | Float if present else None | Market CAP converted in the currency specified, see `send_request()` in [Public methods](#public-methods)) |
