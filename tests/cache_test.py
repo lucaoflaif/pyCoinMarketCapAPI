@@ -27,7 +27,8 @@ class CacheTestCase(unittest.TestCase):
             my_class.send_request(convert="EUR")
 
 
-        self.assertEqual(my_class._n_cache_hits, times_of_request - 1)
+        #self.assertEqual(my_class._n_cache_hits, times_of_request - 1)
+        self.assertEqual(my_class.cache.get_n_cache_hits(), times_of_request - 1)
 
     def test_class_can_cache_api_data_2(self):
         """This test will simulate an interation with the class making a request
@@ -40,7 +41,8 @@ class CacheTestCase(unittest.TestCase):
             my_class.send_request(convert="EUR")
             time.sleep(3)
 
-        self.assertEqual(my_class._n_cache_hits, 0)
+         #self.assertEqual(my_class._n_cache_hits, 0)
+        self.assertEqual(my_class.cache.get_n_cache_hits(), 0)
 
     def test_class_can_cache_api_data_3(self):
         """this test will simulate an interation with the class, the test will do some
@@ -57,7 +59,8 @@ class CacheTestCase(unittest.TestCase):
 
         for step in range(n_of_requests):
             my_class.send_request() # Server request
-            if my_class._n_cache_hits != 0:
+            #if my_class._n_cache_hits != 0:
+            if my_class.cache.get_n_cache_hits() != 0:
                 total_cache_calls += 1
 
             #random numbers generated securely
