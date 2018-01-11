@@ -6,7 +6,7 @@ import datetime
 import requests
 import pytz
 
-from . import types, utils, errors
+from . import types, cache, utils, errors
 class CoinMarketCapAPI(object):
     '''API Class
     '''
@@ -15,15 +15,7 @@ class CoinMarketCapAPI(object):
              requests per minute, we don't have to make more than 1 request every
              ({parameter} / 60) seconds, IT'S FREAKIN' EASY M8
         """
-        self._delay_seconds = 60.0 / max_request_per_minute
-
-        self._cached_api_ticker_response = None
-        self._cached_api_global_response = None
-
-        self._time_cached_api_response = None
-
-        #number of API returned cached data
-        self._n_cache_hits = 0
+        self.cache = cache.Cache(max_request_per_minute)
 
     def __getattr__(self, attr):
         if attr == 'coins':
@@ -33,7 +25,7 @@ class CoinMarketCapAPI(object):
         return self._return_specific_coin(attr)
 
     def _return_all_coins(self):
-        for coin in self._cached_api_ticker_response:
+        for coin in self.cache.get_response(r_type='ticker'):
             yield types.Coin(*coin.values())
 
     def coins(self):
@@ -47,7 +39,9 @@ class CoinMarketCapAPI(object):
         return self._return_specific_coin(coin_name)
 
     def _return_specific_coin(self, attr):
-        filtered_coins_dicts = utils.dicts_filter(self._cached_api_ticker_response, 'id', attr)
+        filtered_coins_dicts = utils.dicts_filter(self.cache.get_response(r_type='ticker'),
+                                                  'id',
+                                                  attr)
         selected_coin_values = filtered_coins_dicts[0].values()
 
         return types.Coin(*selected_coin_values)
@@ -58,7 +52,7 @@ class CoinMarketCapAPI(object):
         return self._return_global_info()
 
     def _return_global_info(self):
-        global_info_values = self._cached_api_ticker_response.values()
+        global_info_values = self.cache.get_response(r_type='global').values()
         return types.Global(*global_info_values)
 
     _API_URL_ROOT = 'https://api.coinmarketcap.com/'
@@ -92,42 +86,23 @@ class CoinMarketCapAPI(object):
             in that case, data_type should be assigned with 'ticker' or 'global'
         """
         if not data_type:
-            return self._cached_api_ticker_response or self._cached_api_global_response
+            return self.cache.get_response(r_type='ticker') or self.cache.get_response(r_type='global')
         elif data_type == 'ticker':
-            return self._cached_api_ticker_response
-        return self._cached_api_global_response
-
-    def _cached_data_is_old(self):
-
-        #If we haven't yet the time of last API call return True
-        #in order to allow the code to do the request
-        if not self._cached_api_ticker_response and not self._cached_api_global_response:
-            return True
-
-        #Let's check the time now
-        time_now_utc = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-
-        #Then, calculate the difference between the last time
-        # we retrieved new data from server and now
-        time_difference = time_now_utc - self._time_cached_api_response
-
-        seconds_difference = time_difference.total_seconds()
-
-        if self._delay_seconds:
-            return seconds_difference > self._delay_seconds
+            return self.cache.get_response(r_type='ticker')
+        return self.cache.get_response(r_type='global')
 
     def _process_request(self, endpoint, built_url, payload):
 
         #if we have no cache's time then call APIs, else use cached data
-        if self._time_cached_api_response is None or self._cached_data_is_old():
+        if self.cache.get_time_cached_api_response() is None or self.cache.cached_data_is_old():
             response = requests.get(built_url, params=payload)
-            self._n_cache_hits = 0 # reset counter
+            self.cache.set_n_cache_hits(0) # reset counter
         else:
             if endpoint == 'ticker':
-                response = self._cached_api_ticker_response
+                response = self.cache.get_response(r_type='ticker')
             else:
-                response = self._cached_api_global_response
-            self._n_cache_hits += 1
+                response = self.cache.get_response(r_type='global')
+            self.cache.set_n_cache_hits(increment_by=1)
 
         if self._response_is_valid(response):
             self._process_response(response)
@@ -148,16 +123,4 @@ class CoinMarketCapAPI(object):
             #response in raw format, going to convert it
             json_response = response.json()
 
-        self._cache_data(json_response)
-
-    def _cache_data(self, json_response):
-        #UTC time must be converted later into local user's time
-        utc_time = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-        self._time_cached_api_response = utc_time
-
-        if isinstance(json_response, list):
-            # multiple values, that's a 'ticker' response
-            self._cached_api_ticker_response = json_response
-        else:
-            # 'dict' instance, single vaue, 'global' response
-            self._cached_api_global_response = json_response
+        self.cache.cache_data(json_response)
