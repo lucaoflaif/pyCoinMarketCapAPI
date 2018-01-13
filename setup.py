@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pyCoinMarketCapAPI',
-      version='0.2',
+      version='0.4',
       description="Python support for coimarketcap's APIs with cache and timezones support.",
       classifiers=[
           'Development Status :: 5 - Production/Stable',
