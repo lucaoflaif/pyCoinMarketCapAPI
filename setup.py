@@ -1,3 +1,6 @@
+"""setuptools config for the package
+"""
+
 from setuptools import setup
 
 setup(name='pyCoinMarketCapAPI',

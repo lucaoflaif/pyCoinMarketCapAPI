@@ -1,10 +1,7 @@
 """main file of package
 """
 
-import json
-import datetime
 import requests
-import pytz
 
 from . import types, cache, utils, errors
 class CoinMarketCapAPI(object):
