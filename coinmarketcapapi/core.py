@@ -7,12 +7,14 @@ from . import types, cache, utils, errors
 class CoinMarketCapAPI(object):
     '''API Class
     '''
-    def __init__(self, max_request_per_minute=9):
+    def __init__(self, max_request_per_minute=9, force_full_cache=False):
         """: param int max_request_per_minute, if we want a maximum of {parameter}
              requests per minute, we don't have to make more than 1 request every
              ({parameter} / 60) seconds, IT'S FREAKIN' EASY M8
         """
         self.cache = cache.Cache(max_request_per_minute)
+
+        self.force_full_cache = force_full_cache
 
     def __getattr__(self, attr):
         if attr == 'coins':
@@ -57,6 +59,14 @@ class CoinMarketCapAPI(object):
 
 
     def _make_url(self, endpoint, coin_name):
+
+        if self.force_full_cache:
+            unset_caches_info = self.cache.get_unset_cache()
+
+            if unset_caches_info[0] == 1: #one unset cache
+                unset_caches = unset_caches_info[1] # first element of list of unset caches
+                endpoint = unset_caches[0]
+
         url = "{}/{}/{}/{}".format(
             self._API_URL_ROOT,
             self._API_URL_VERSION,
@@ -71,6 +81,7 @@ class CoinMarketCapAPI(object):
            : param string 'coin_name', specify the name of the coin, if None,
              we'll retrieve info about all available coins.
         """
+
         built_url = self._make_url(endpoint, coin_name)
         payload = dict(**kwargs)
 
@@ -90,10 +101,10 @@ class CoinMarketCapAPI(object):
 
     def _process_request(self, endpoint, built_url, payload):
 
-        #if we have no cache's time then call APIs, else use cached data
         if self.cache.get_time_cached_api_response() is None or self.cache.cached_data_is_old():
             response = requests.get(built_url, params=payload)
-            self.cache.set_n_cache_hits(0) # reset counter
+
+            self.cache.set_n_cache_hits(hits=0) # reset counter
         else:
             if endpoint == 'ticker':
                 response = self.cache.get_response(r_type='ticker')
@@ -119,5 +130,4 @@ class CoinMarketCapAPI(object):
         else:
             #response in raw format, going to convert it
             json_response = response.json()
-
         self.cache.cache_data(json_response)

@@ -65,7 +65,7 @@ class Cache:
             # multiple values, that's a 'ticker' response
             self._cached_api_ticker_response = json_response
         else:
-            # 'dict' instance, single vaue, 'global' response
+            # 'dict' instance, single value, 'global' response
             self._cached_api_global_response = json_response
 
     def set_n_cache_hits(self, hits=0, increment_by=None):
@@ -73,3 +73,13 @@ class Cache:
             self._n_cache_hits += increment_by
         else:
             self._n_cache_hits = hits
+
+    def get_unset_cache(self):
+        """return : returns a tuple (num_of_not_None_caches, [list of unset caches endpoint])
+        """
+        caches = []
+        if self._cached_api_global_response is None:
+            caches.append('global')
+        if self._cached_api_ticker_response is None:
+            caches.append('ticker')
+        return (len(caches), caches)
