@@ -7,7 +7,9 @@
 ![PyPI](https://img.shields.io/pypi/v/pyCoinMarketCapAPI.svg)
 [![PyPI](https://img.shields.io/pypi/l/pyCoinMarketCapAPI.svg)]()
 
-pyCoinMarketCapAPI is a python interface for <https://coinmarketcap.com> APIs, It supports a cache, and a dynamic timezone mechanism.
+pyCoinMarketCapAPI is a python interface for <https://coinmarketcap.com> APIs, It supports 
+- [ ] a cache mechanism. 
+- [ ] a dynamic timezone mechanism.
 
 ## Installation
 
