@@ -47,7 +47,8 @@ class CacheTestCase(unittest.TestCase):
     def test_class_can_cache_api_data_3(self):
         """this test will simulate an interation with the class, the test will do some
         requests at different time and it'll see if the cache will hit the correct
-        number of times"""
+        number of times
+        """
 
         max_requests = 30
         my_class = coinmarketcapapi.CoinMarketCapAPI(max_request_per_minute=max_requests)
@@ -72,6 +73,22 @@ class CacheTestCase(unittest.TestCase):
                 expected_cache_calls += 1
 
         self.assertEqual(total_cache_calls, expected_cache_calls)
+
+    def test_force_full_cache(self):
+        """This test will test the "force full test" mechanism
+        """
+
+        my_class = coinmarketcapapi.CoinMarketCapAPI(30, True)
+        #max requests per minute 30
+        #full cache mechanism True
+
+        my_class.send_request(endpoint='ticker')
+
+        time.sleep(3)
+        my_class.send_request(endpoint='ticker')
+
+        self.assertTrue(bool(my_class.cache._cached_api_global_response), True)
+
 
 
 if __name__ == "__main__":
