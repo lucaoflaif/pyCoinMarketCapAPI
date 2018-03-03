@@ -41,7 +41,10 @@ class CoinMarketCapAPI(object):
         filtered_coins_dicts = utils.dicts_filter(self.cache.get_response(r_type='ticker'),
                                                   'id',
                                                   attr)
-        selected_coin_values = filtered_coins_dicts[0].values()
+        coins_dict = filtered_coins_dicts[0]
+        if not coins_dict: raise errors.CoinDoesNotExist(attr)
+        
+        selected_coin_values = coins_dict.values()
 
         return types.Coin(*selected_coin_values)
 
