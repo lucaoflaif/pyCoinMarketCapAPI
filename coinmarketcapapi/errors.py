@@ -11,3 +11,13 @@ class APICallFailed(Exception):
                        }
 
         super(APICallFailed, self).__init__(message)
+
+class CoinDoesNotExist(Exception):
+    """This is raised whenever user try to retrieve a non existing coin"""
+    def __init__(self, coin_name):
+        
+        message = "Coin %(coin_name)s not found" % {
+            'coin_name': coin_name,
+            }
+        
+        super(CoinDoesNotExist, self).__init__(message)
